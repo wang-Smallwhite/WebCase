@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body style="height: 2000px;">
+  
+<script>
+  // const debounce = function(fn, wait) {
+  //     // 函数的形参是局部变量
+  //     let timer = null
+  //     return () => {
+  //       timer && clearTimeout(timer)
+  //       timer = setTimeout(() => {
+  //         fn.apply(this, arguments)
+  //       }, wait)
+  //     }
+  //   }
+  //   function handleScroll() {
+  //     console.log('a')
+  //   }
+  //   window.addEventListener('scroll', debounce(handleScroll, 1000))
+  //   window.addEventListener('click', debounce(() => {
+    //   console.log('单击')
+    // }, 500))
+
+    const debounce = function(fn, wait) {
+      let timer = null
+      return ()=> {
+        timer && clearTimeout(timer)
+        timer = setTimeout(() =>{
+          fn.apply(this, arguments)
+        }, wait)
+      }
+    }
+    function handleScroll() {
+      console.log('a');
+    }
+    window.addEventListener('scroll', debounce(handleScroll, 1000))
+    window.addEventListener('click', debounce(()=>{
+      console.log('单机');
+    }, 1000))
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>轮播图</title>
+  <link rel="stylesheet" href="css.css">
+</head>
+<body>
+  <div class="warp">
+    <ul class="list-item">
+      <li class="item active">0</li>
+      <li class="item">1</li>
+      <li class="item">2</li>
+      <li class="item">3</li>
+      <li class="item">4</li>
+      <li class="item">5</li>
+    </ul>
+    <ul class="list-point">
+      <li class="point active" data-index = "0"></li>
+      <li class="point"data-index = "1"></li>
+      <li class="point" data-index = "2"></li>
+      <li class="point" data-index = "3"></li>
+      <li class="point" data-index = "4"></li>
+      <li class="point" data-index = "5"></li>
+    </ul>
+    <button type="button" class="Lbtn" id="gopre"><</button>
+    <button type="button" class="Rbtn" id="gonext">></button>
+  </div>
+
+<script>
+  const listItem = document.querySelector('.list-item')
+  const items = document.querySelectorAll('.item')
+  const goPreBtn = document.querySelector('#gopre')
+  const goNextBtn = document.querySelector('#gonext')
+  const points = document.querySelectorAll('.point')
+  const warp = document.querySelector('.warp')
+  let index = 0
+  let timer = 0
+  
+  const clearActive = function() {
+    for( let i = 0; i < items.length; i++) {
+      items[i].className = 'item'
+    }
+    for( let i = 0; i < points.length; i++) {
+      points[i].className = 'point' 
+    }
+  }
+  
+  const goIndex = function() {
+    clearActive()
+    points[index].className = 'point active'
+    items[index].className = 'item active'
+    
+  }
+  const goNext = function() {
+    if(index < items.length - 1) {
+      index++
+    }else {
+      index = 0
+    }
+    goIndex()
+  }
+  
+  const goPre = function() {
+    if(index === 0) {
+      index = items.length - 1
+    }else {
+      index --
+    }
+    goIndex()
+  }
+  goNextBtn.addEventListener('click', ()=> {
+    goNext()
+  })
+  goPreBtn.addEventListener('click', function() {
+    goPre()
+  })
+  
+  for (let i = 0; i < points.length; i++) {
+    points[i].addEventListener('click', function() {
+      const pointIndex = this.getAttribute('data-index')
+      index = pointIndex
+      goIndex()
+    })
+  }
+  warp.addEventListener('mouseenter', (e) => {
+    clearTimeout(timer)
+  })
+  warp.addEventListener('mouseleave', () => {
+    window.requestAnimationFrame(autoPlay)
+  })
+
+  function autoPlay() {
+    timer = setTimeout(() => {
+      goNext()
+      window.requestAnimationFrame(autoPlay)
+    }, 1000)
+  }
+  window.requestAnimationFrame(autoPlay)
+			
+</script>
+</body>
+</html>

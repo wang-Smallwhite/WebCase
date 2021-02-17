@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表单通信</title>
+</head>
+<body>
+  <form id="js_form" action="" autocomplete="off">
+    <input type="text" name="user_name" autocomplete="on" placeholder="用户名">
+    <input type="text" name="user_pass"  placeholder="密码">
+    <button type="submit">注册</button>
+  </form>
+  <script type="text/javascript">
+    const form = document.querySelector('#js_form')
+    form.addEventListener('submit', function(e) {
+      e.preventDefault()
+      const fd = new FormData(this)
+      console.log('user_name', fd.get('user_name'))
+      console.log('user_pass', fd.get('user_pass'))
+      request(fd)
+    })
+
+    function request(data) {
+      const xhr = new XMLHttpRequest()
+      xhr.open('post', 'http://localhost:3000/user')
+      xhr.onreadystatechange = (e) => {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+          console.log('reponse', xhr.response);
+        }
+      }
+      xhr.send(data)
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.box {
+  margin: 0 auto;
+  padding: 25px;
+  width: 100px;
+  height: 100px;
+}
+.box label {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 3px #333;
+}
+.box label::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 20;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 2px #1b1a1a;
+  transition: 0.75s all;
+}
+.box input {
+  display: none;
+}
+.box input:checked ~ label {
+  background: #0984e3;
+}
+.box input:checked ~ label::before {
+  transform: translateX(20px);
+}

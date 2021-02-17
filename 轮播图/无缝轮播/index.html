@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>无缝轮播</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    ul {
+      list-style: none;
+    }
+    .wrap {
+      position: relative;
+      width: 960px;
+      height: 320px;
+      margin: 30px auto;
+      overflow: hidden;
+    }
+    .inner {
+      display: flex;
+    }
+    .point {
+      position: absolute;
+      bottom: 5px;
+      left: calc(50% - 167px);
+    }
+    .point:hover {
+      will-change: margin-left;
+    }
+    .point > li {
+      display: inline-block;
+      width: 80px;
+      height: 10px;
+      background-color: #7d7d7d;
+      transition: all ,.65s;
+    }
+    .point > li.active {
+      background-color: cyan;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <ul class="point" data-point>
+      <li class="active" data-index="0"></li>
+      <li data-index="1"></li>
+      <li data-index="2"></li>
+      <li data-index="3"></li>
+    </ul>
+    <ul class="inner" data-slide>
+      <li>
+        <img src="img/1.jpg" alt="">
+      </li>
+      <li>
+        <img src="img/2.jpg" alt="">
+      </li>
+      <li>
+        <img src="img/3.jpg" alt="">
+      </li>
+      <li>
+        <img src="img/4.jpg" alt="">
+      </li>
+    </ul>
+  </div>
+
+<script>
+  const points = document.querySelector('[data-point]');
+  const slideBar = document.querySelector('[data-slide]');
+  const pointsChildren = points.children;
+  // console.log(pointsChildren);
+  let index = 0, 
+    len = pointsChildren.length,
+    timer = null;
+  slideBar.appendChild(slideBar.children[0].cloneNode(true));
+  points.addEventListener('click', function(e) {
+    if(e.target === e.currentTarget) return;
+    const self = e.target;
+    index = Number(e.target.dataset.index);
+    slide();
+  })
+  function slide() {
+    Array.from(pointsChildren)
+      .find(node => node.classList.contains('active'))
+      .removeAttribute('class');
+    pointsChildren[index === len ? 0 : index].classList.add('active');
+    slideBar.style.cssText = `transition: all .6s; margin-left: -${index * 100}%`;
+  }
+
+  function autoPlay() {
+    timer = setTimeout(() => {
+      index +=1;
+      if(index > len) {
+        index = 0;
+        slideBar.style.cssText = `margin-left: -${index * 100}%`;
+      }else {
+        slide();
+      }
+      window.requestAnimationFrame(autoPlay)
+    }, 1000)
+  }
+  window.requestAnimationFrame(autoPlay)
+  const wrap = document.querySelector('.wrap')
+  wrap.addEventListener('mouseenter', () => {
+    clearTimeout(timer)
+  })
+
+  wrap.addEventListener('mouseleave', () => {
+    window.requestAnimationFrame(autoPlay)
+  })
+</script>
+</body>
+</html>

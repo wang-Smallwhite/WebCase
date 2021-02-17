@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form id="js_form">
+    <input type="file" name="upfile" id="upfile">
+    <button type="submit">上传文件</button>
+  </form>
+  
+<script>
+  const upfile = document.querySelector('#upfile');
+  let fileList 
+  upfile.addEventListener('change', function(e) {
+    fileList = this.files;
+    for(let file of fileList) {
+      console.log(file)
+    }
+  })
+  const form = document.querySelector('#js_form');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault()
+    if(!fileList) return;
+    const formData = new FormData(this);
+    console.log(formData.get('upfile'));
+    request(formData)
+  })
+
+  function request(formData) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', 'http://localhost:8080/files/upload');
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        callback(xhr.response)
+      }
+    }
+    xhr.send(formData)
+  }
+</script>
+</body>
+</html>

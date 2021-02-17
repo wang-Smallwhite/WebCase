@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body style="height: 2000px;">
+  
+<script>
+  const throttle = (fn, wait = 1000) => {
+    let lastTime = 0
+    return function() {
+      const now = +new Date()
+      if(now - lastTime >= wait) {
+        lastTime = now
+        fn.apply(this, null)
+      }
+    }
+  }
+  function handleScroll() {
+    const dt = +new Date() 
+    console.log(dt);
+  }
+  window.addEventListener('scroll', throttle(handleScroll, 2000))
+  console.log(+new Date());
+</script>
+</body>
+</html>
